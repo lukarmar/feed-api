@@ -37,7 +37,7 @@ async function bootstrap() {
 
   if(envService.getEnv('NODE_ENV') === 'development') {
     const docsPath = './docs/swagger';
-    writeFileSync(`${docsPath}/swagger.json`, JSON.stringify(document));
+    writeFileSync(`${docsPath}/swagger.json`, JSON.stringify(swaggerDocument));
   }
   
 
