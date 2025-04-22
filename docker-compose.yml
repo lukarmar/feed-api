@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: feed.postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: feed
+      POSTGRES_LOGGING: true
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # - ./infra.local/postgres/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - feed-network
+
+  api:
+    platform: linux/x86_64
+    container_name: feed.api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    restart: always
+    env_file: .env
+    environment:
+      - DATABASE_HOST=feed.postgres
+      - DATABASE_PORT=$DATABASE_PORT
+      - DATABASE_USER=$DATABASE_USER
+      - DATABASE_PASSWORD=$DATABASE_PASSWORD
+      - DATABASE_NAME=$DATABASE_NAME
+    ports:
+      - $API_PORT:4568
+    volumes:
+      - ./:/app
+    links:
+      - postgres
+    networks:
+    - feed-network
+    
+  
+volumes:
+  postgres_data:
+
+networks:
+  feed-network:
+    driver: bridge

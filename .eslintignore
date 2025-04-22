@@ -1,0 +1,7 @@
+node_modules
+dist
+.prettierrc
+package-lock.json
+package.json
+.vscode
+

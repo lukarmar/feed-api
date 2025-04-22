@@ -1,0 +1,6 @@
+export * from './user-repository.mock'
+export * from './hash-generator.mock'
+export * from './like-repository.mock'
+export * from './post-repository.mock'
+export * from './encrypter.mock'
+export * from './hash-comparer.mock'
